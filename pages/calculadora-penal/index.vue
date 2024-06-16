@@ -3,7 +3,7 @@
 		<h1 class="text-4xl font-bold">Calculadora Penal</h1>
 		<small>A calculadora é uma maneira rápida e simples de realizar a somatória de todas as imputações penais.</small>
 	</div>
-	<FormCalculadora class="px-4"/>
+	<FormCalculadora class="px-4 py-5"/>
 </template>
 
 <script>

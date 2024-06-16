@@ -111,7 +111,94 @@
       </div>
       <div class="border-b pb-4">
         <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
-        <textearea>oi</textearea>
+        <textarea
+          v-model="form.itensApreendidos"
+          class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        ></textarea>
+      </div>
+      <div class="border-b pb-4" v-if="crimes.length">
+        <p class="mb-2 font-bold text-xl">RESUMO:</p>
+        <div class="shadow appearance-none border rounded w-full py-2 px-3">
+          <p v-for="(crime, index) in crimes" :key="index">
+            {{ crime.label }}
+          </p>
+        </div>
+      </div>
+      <div class="border-b pb-4">
+        <p class="mb-2 font-bold text-xl">ATENUANTES:</p>
+        <div
+          v-for="(atenuante, index) in atenuantes"
+          :key="index"
+          @click="toggleSelectedCrime(atenuante)"
+          class="border rounded px-5 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+          :class="{
+            'text-green-600': atenuante.selected,
+          }"
+        >
+          {{ atenuante.label }}
+        </div>
+      </div>
+      <div class="border-b pb-4">
+        <p class="mb-2 font-bold text-xl">RELATÓRIO:</p>
+        <div class="shadow appearance-none border rounded w-full py-2 px-3">
+          <p>```md</p>
+          <span class="block"># INFORMAÇÕES DO PRESO:</span>
+          <span class="block">⭐ NOME: {{ form.nomePreso }}</span>
+          <span class="block">⭐ RG: {{ form.passaportePreso }}</span>
+          <div v-if="form.passaporteAdvogado">
+            <br />
+            <span class="block"># INFORMAÇÕES DO ADVOGADO:</span>
+            <span class="block">⭐ RG: {{ form.passaporteAdvogado }}</span>
+          </div>
+          <br />
+          <span class="block"
+            ># PENA TOTAL: {{ Math.floor(pena) }} ({{
+              100 - somaAtenuantes
+            }}%)</span
+          >
+          <span class="block"># MULTA: {{ multa }} (100%)</span>
+          <div v-if="crimes.length">
+            <br />
+            <span class="block"># CRIMES:</span>
+            <span class="block" v-for="(crime, index) in crimes" :key="index">
+              {{ crime.label }}
+            </span>
+          </div>
+          <div v-if="form.itensApreendidos">
+            <br />
+            <span class="block">#ITENS APREENDIDOS</span>
+            <span
+              class="block"
+              v-html="form.itensApreendidos"
+              style="white-space: break-spaces"
+            ></span>
+          </div>
+          <div v-if="somaAtenuantes > 0">
+            <br />
+            <span class="block"># ATENUANTES:</span>
+            <span
+              class="block"
+              v-for="(atenuante, index) in atenuantes.filter(
+                (el) => el.selected
+              )"
+              :key="index"
+            >
+              {{ atenuante.label }}
+            </span>
+          </div>
+          <br/>
+          <span class="block"># 📋 Porte de arma: Não</span>
+          <br/>
+          <span class="block">⭐ DATA: {{dataHora}}</span>
+          <p>```</p>
+        </div>
+      </div>
+      <div>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Copiar
+        </button>
       </div>
     </div>
   </div>
@@ -121,10 +208,10 @@
 import TextInput from "./textInput.vue";
 
 export default {
-	vue: {
+  vue: {
     compilerOptions: {
-      isCustomElement: tag => tag === 'textearea'
-    }
+      isCustomElement: (tag) => tag === "textearea",
+    },
   },
   components: {
     TextInput,
@@ -286,23 +373,23 @@ export default {
         },
         {
           label: "Art. 25 - Desacato",
-          selected: false,
+          selected: true,
           pena: 20,
-          multa: null,
+          multa: 50000,
           fianca: null,
         },
         {
           label: "Art. 25.1 - Desacato x1",
           selected: false,
           pena: 20,
-          multa: null,
+          multa: 50000,
           fianca: null,
         },
         {
           label: "Art. 25.2 - Desacato x2",
           selected: false,
           pena: 20,
-          multa: null,
+          multa: 50000,
           fianca: null,
         },
         {
@@ -477,7 +564,7 @@ export default {
         },
         {
           label: "Art. 38 - Tentativa de Fuga",
-          selected: false,
+          selected: true,
           pena: 10,
           multa: 5000,
           fianca: 10000,
@@ -491,7 +578,7 @@ export default {
         },
         {
           label: "Art. 40 - Réu Reincidente",
-          selected: false,
+          selected: true,
           pena: 5,
           multa: 0,
           fianca: 0,
@@ -610,7 +697,7 @@ export default {
         },
         {
           label: "Art. 57 - Posse de Itens Ilegais",
-          selected: false,
+          selected: true,
           pena: 5,
           multa: 10000,
           fianca: 15000,
@@ -626,21 +713,21 @@ export default {
       crimesDeTransito: [
         {
           label: "Art. 67 - Condução Imprudente",
-          selected: false,
+          selected: true,
           pena: 2,
           multa: 1000,
           fianca: 2500,
         },
         {
           label: "Art. 68 - Dirigir na Contra Mão",
-          selected: false,
+          selected: true,
           pena: 0,
           multa: 15000,
           fianca: 0,
         },
         {
           label: "Art. 69 - Alta Velocidade",
-          selected: false,
+          selected: true,
           pena: 0,
           multa: 10000,
           fianca: 0,
@@ -695,11 +782,120 @@ export default {
           fianca: 0,
         },
       ],
+      atenuantes: [
+        {
+          label: "🔹 Advogado constituído: Redução de 30% na pena total",
+          selected: false,
+          reducao: 30,
+        },
+        {
+          label: "🔹 Réu primário: Redução de 20% na pena total.",
+          selected: false,
+          reducao: 20,
+        },
+        {
+          label: "🔹 Réu confesso: Redução de 20% na pena total.",
+          selected: false,
+          reducao: 20,
+        },
+        {
+          label:
+            "🔹 Mandado de busca e apreensão: Ordem do juiz, mandando que se apreenda coisa em poder de outrem ou em certo lugar, para ser trazida a juízo e aí ficar sob custódia do próprio juiz, mesmo que em poder de um depositário por ele designado ou do depositário público.",
+          selected: false,
+          fianca: false,
+          reducao: 0,
+        },
+        {
+          label: "📋 Possui porte de arma",
+          selected: false,
+        },
+        {
+          label:
+            "🏥 REANIMADO NO HP: Reduzir os minutos tomados até o hospital (obrigatório sempre que o preso tiver sido reanimado)",
+          selected: false,
+          reducao: 30,
+        },
+      ],
     };
+  },
+
+  computed: {
+    crimes() {
+      let crimesContraVida = this.crimesContraVida?.filter((el) => el.selected);
+      let crimesContraDireitosFundamentais =
+        this.crimesContraDireitosFundamentais?.filter((el) => el.selected);
+      let crimesContraLiberdadePessoal =
+        this.crimesContraLiberdadePessoal?.filter((el) => el.selected);
+      let crimesContraAdministracaoPublica =
+        this.crimesContraAdministracaoPublica?.filter((el) => el.selected);
+      let crimesContraPatrimonio = this.crimesContraPatrimonio?.filter(
+        (el) => el.selected
+      );
+      let crimesContraOrdemPublica = this.crimesContraOrdemPublica?.filter(
+        (el) => el.selected
+      );
+      let crimesDeTransito = this.crimesDeTransito?.filter((el) => el.selected);
+
+      return [
+        ...crimesContraVida,
+        ...crimesContraDireitosFundamentais,
+        ...crimesContraLiberdadePessoal,
+        ...crimesContraAdministracaoPublica,
+        ...crimesContraPatrimonio,
+        ...crimesContraOrdemPublica,
+        ...crimesDeTransito,
+      ];
+    },
+    pena() {
+      if (!this.crimes.length) return "100";
+
+      let total = this.crimes.reduce((a, b) => a + b.pena, 0);
+
+      if (this.somaAtenuantes > 0) {
+        total = total - (total * this.somaAtenuantes) / 100;
+      }
+
+      if (total > 100) {
+        return 100;
+      }
+
+      return total;
+    },
+    multa() {
+      if (!this.crimes.length) return "0,00";
+
+      if (this.crimes.length == 1) {
+        return this.parseToBrl(this.crimes[0].multa);
+      }
+
+      return this.parseToBrl(this.crimes.reduce((a, b) => a + b.multa, 0));
+    },
+    somaAtenuantes() {
+      let atenuantes = this.atenuantes.filter((el) => el.selected);
+
+      return atenuantes.reduce((a, b) => a + b.reducao, 0);
+    },
+    dataHora() {
+      return new Date().toLocaleString("pt-br", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
   },
   methods: {
     toggleSelectedCrime(crime) {
       crime.selected = !crime.selected;
+    },
+    parseToBrl(value) {
+      if (!value) return "R$ 0,00";
+
+      return value.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
+      });
     },
   },
 };
