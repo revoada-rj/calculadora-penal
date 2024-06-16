@@ -264,7 +264,7 @@
           <span class="block"
             ># 📋 Porte de arma:
             {{
-              this.atenuantes.filter(
+              atenuantes.filter(
                 (el) => el.label == "📋 Possui porte de arma"
               )[0].selected
                 ? "Sim"
