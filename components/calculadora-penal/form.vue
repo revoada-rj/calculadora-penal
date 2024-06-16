@@ -8,282 +8,284 @@
         v-model="form.passaporteAdvogado"
       />
     </div>
-    <div class="grid grid-cols-1 gap-4 mt-4">
-      <!-- CRIMES CONTRA A VIDA -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">CRIMES CONTRA A VIDA:</p>
-        <div
-          v-for="(crime, index) in crimesContraVida"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{ 'text-green-600': crime.selected }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- CRIMES CONTRA DIREITOS FUNDAMENTAIS -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">
-          CRIMES CONTRA DIREITOS FUNDAMENTAIS:
-        </p>
-        <div
-          v-for="(crime, index) in crimesContraDireitosFundamentais"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crime.selected,
-          }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- CRIMES CONTRA A LIBERDADE PESSOAL -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">CRIMES CONTRA A LIBERDADE PESSOAL:</p>
-        <div
-          v-for="(crime, index) in crimesContraLiberdadePessoal"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crime.selected,
-          }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- CRIMES CONTRA A ADMINISTRAÇÃO PÚBLICA -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">
-          CRIMES CONTRA A ADMINISTRAÇÃO PÚBLICA:
-        </p>
-        <div
-          v-for="(crime, index) in crimesContraAdministracaoPublica"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crime.selected,
-          }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- CRIMES CONTRA O PATRIMÔNIO -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">CRIMES CONTRA O PATRIMÔNIO:</p>
-        <div
-          v-for="(crime, index) in crimesContraPatrimonio"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crime.selected,
-          }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- CRIMES CONTRA A ORDEM PÚBLICA -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">CRIMES CONTRA A ORDEM PÚBLICA:</p>
-        <div
-          v-for="(crime, index) in crimesContraOrdemPublica"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crime.selected,
-          }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- CRIMES DE TRÂNSITO -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">CRIMES DE TRÂNSITO:</p>
-        <div
-          v-for="(crime, index) in crimesDeTransito"
-          :key="index"
-          @click="toggleSelectedCrime(crime)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crime.selected,
-          }"
-        >
-          {{ crime.label }}
-        </div>
-      </div>
-      <!-- ITENS APREENDIDOS -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
-        <textarea
-          v-model="form.itensApreendidos"
-          class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        ></textarea>
-      </div>
-      <!-- RESUMO -->
-      <div class="border-b pb-4" v-if="crimes.length">
-        <p class="mb-2 font-bold text-xl">RESUMO:</p>
-        <div class="shadow appearance-none border rounded w-full py-2 px-3">
-          <p v-for="(crime, index) in crimes" :key="index">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <!-- CRIMES CONTRA A VIDA -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">CRIMES CONTRA A VIDA:</p>
+          <div
+            v-for="(crime, index) in crimesContraVida"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{ 'text-green-600': crime.selected }"
+          >
             {{ crime.label }}
+          </div>
+        </div>
+        <!-- CRIMES CONTRA DIREITOS FUNDAMENTAIS -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">
+            CRIMES CONTRA DIREITOS FUNDAMENTAIS:
           </p>
-        </div>
-      </div>
-      <!-- ATENUANTES -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">ATENUANTES:</p>
-        <div
-          v-for="(atenuante, index) in atenuantes"
-          :key="index"
-          @click="toggleSelectedCrime(atenuante)"
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': atenuante.selected,
-          }"
-        >
-          {{ atenuante.label }}
-        </div>
-      </div>
-      <!-- AGRAVANTES -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">AGRAVANTES:</p>
-        <div
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': form.mandato,
-          }"
-          @click="toggleMandato"
-        >
-          🔹 Mandado de busca e apreensão
-        </div>
-        <div
-          class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-          :class="{
-            'text-green-600': crimesContraOrdemPublica[10].selected,
-          }"
-          @click="toggleReincidente"
-        >
-          🔹 Réu reincidente
-        </div>
-      </div>
-      <!-- FIANÇA -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">FIANÇA:</p>
-        <text-input
-          label="Dinheiro sujo"
-          @keyup="moeda"
-          v-model="form.dinheiroSujo"
-        />
-        <div class="flex flex-col">
-          <label>Fiança total</label>
           <div
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            v-for="(crime, index) in crimesContraDireitosFundamentais"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crime.selected,
+            }"
           >
-            {{ parseToBrl(fiancaTotal) }}
+            {{ crime.label }}
           </div>
         </div>
-        <div class="flex flex-col">
-          <label>Fiança policial</label>
+        <!-- CRIMES CONTRA A LIBERDADE PESSOAL -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">
+            CRIMES CONTRA A LIBERDADE PESSOAL:
+          </p>
           <div
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            v-for="(crime, index) in crimesContraLiberdadePessoal"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crime.selected,
+            }"
           >
-            {{ parseToBrl(fiancaPolicial) }}
+            {{ crime.label }}
           </div>
         </div>
-        <div class="flex flex-col">
-          <label>Fiança advogado</label>
+        <!-- CRIMES CONTRA A ADMINISTRAÇÃO PÚBLICA -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">
+            CRIMES CONTRA A ADMINISTRAÇÃO PÚBLICA:
+          </p>
           <div
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            v-for="(crime, index) in crimesContraAdministracaoPublica"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crime.selected,
+            }"
           >
-            {{ parseToBrl(fiancaAdvogado) }}
+            {{ crime.label }}
           </div>
         </div>
-        <div class="flex flex-col">
-          <label>Fiança bau</label>
+        <!-- CRIMES CONTRA O PATRIMÔNIO -->
+        <div class="border-b md:border-b-0 py-4">
+          <p class="mb-2 font-bold text-xl">CRIMES CONTRA O PATRIMÔNIO:</p>
           <div
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            v-for="(crime, index) in crimesContraPatrimonio"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crime.selected,
+            }"
           >
-            {{ parseToBrl(fiancaBau) }}
+            {{ crime.label }}
           </div>
-        </div>
-      </div>
-      <!-- RELATÓRIO -->
-      <div class="border-b pb-4">
-        <p class="mb-2 font-bold text-xl">RELATÓRIO:</p>
-        <div class="shadow appearance-none border rounded w-full py-2 px-3">
-          <p>```md</p>
-          <span class="block"># INFORMAÇÕES DO PRESO:</span>
-          <span class="block">⭐ NOME: {{ form.nomePreso }}</span>
-          <span class="block">⭐ RG: {{ form.passaportePreso }}</span>
-          <div v-if="form.passaporteAdvogado">
-            <br />
-            <span class="block"># INFORMAÇÕES DO ADVOGADO:</span>
-            <span class="block">⭐ RG: {{ form.passaporteAdvogado }}</span>
-          </div>
-          <br />
-          <span class="block"
-            ># PENA TOTAL: {{ Math.floor(pena) }} ({{
-              100 - somaAtenuantes
-            }}%)</span
-          >
-          <span class="block"># MULTA: {{ multa }} (100%)</span>
-          <div v-if="crimes.length">
-            <br />
-            <span class="block"># CRIMES:</span>
-            <span class="block" v-for="(crime, index) in crimes" :key="index">
-              {{ crime.label }}
-            </span>
-          </div>
-          <div v-if="form.itensApreendidos">
-            <br />
-            <span class="block">#ITENS APREENDIDOS</span>
-            <span
-              class="block"
-              v-html="form.itensApreendidos"
-              style="white-space: break-spaces"
-            ></span>
-          </div>
-          <div v-if="somaAtenuantes > 0">
-            <br />
-            <span class="block"># ATENUANTES:</span>
-            <span
-              class="block"
-              v-for="(atenuante, index) in atenuantes.filter(
-                (el) => el.selected
-              )"
-              :key="index"
-            >
-              {{ atenuante.label }}
-            </span>
-          </div>
-          <br />
-          <span class="block"
-            ># 📋 Porte de arma:
-            {{
-              atenuantes.filter(
-                (el) => el.label == "📋 Possui porte de arma"
-              )[0].selected
-                ? "Sim"
-                : "Não"
-            }}</span
-          >
-          <br />
-          <span class="block">⭐ DATA: {{ dataHora }}</span>
-          <p>```</p>
         </div>
       </div>
       <div>
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Copiar
-        </button>
+        <!-- CRIMES CONTRA A ORDEM PÚBLICA -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">CRIMES CONTRA A ORDEM PÚBLICA:</p>
+          <div
+            v-for="(crime, index) in crimesContraOrdemPublica"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crime.selected,
+            }"
+          >
+            {{ crime.label }}
+          </div>
+        </div>
+        <!-- CRIMES DE TRÂNSITO -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">CRIMES DE TRÂNSITO:</p>
+          <div
+            v-for="(crime, index) in crimesDeTransito"
+            :key="index"
+            @click="toggleSelectedCrime(crime)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crime.selected,
+            }"
+          >
+            {{ crime.label }}
+          </div>
+        </div>
+
+        <!-- ITENS APREENDIDOS -->
+        <div class="border-b py-4 md:border-b-0 py-4">
+          <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
+          <textarea
+            v-model="form.itensApreendidos"
+            class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          ></textarea>
+        </div>
+      </div>
+      <div>
+        <!-- ATENUANTES -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">ATENUANTES:</p>
+          <div
+            v-for="(atenuante, index) in atenuantes"
+            :key="index"
+            @click="toggleSelectedCrime(atenuante)"
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': atenuante.selected,
+            }"
+          >
+            {{ atenuante.label }}
+          </div>
+        </div>
+        <!-- AGRAVANTES -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">AGRAVANTES:</p>
+          <div
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': form.mandato,
+            }"
+            @click="toggleMandato"
+          >
+            🔹 Mandado de busca e apreensão
+          </div>
+          <div
+            class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
+            :class="{
+              'text-green-600': crimesContraOrdemPublica[10].selected,
+            }"
+            @click="toggleReincidente"
+          >
+            🔹 Réu reincidente
+          </div>
+        </div>
+        <!-- FIANÇA -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">FIANÇA:</p>
+          <text-input
+            label="Dinheiro sujo"
+            @keyup="moeda"
+            v-model="form.dinheiroSujo"
+          />
+          <div class="flex flex-col">
+            <label>Fiança total</label>
+            <div
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {{ parseToBrl(fiancaTotal) }}
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <label>Fiança policial</label>
+            <div
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {{ parseToBrl(fiancaPolicial) }}
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <label>Fiança advogado</label>
+            <div
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {{ parseToBrl(fiancaAdvogado) }}
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <label>Fiança bau</label>
+            <div
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {{ parseToBrl(fiancaBau) }}
+            </div>
+          </div>
+        </div>
+        <!-- RELATÓRIO -->
+        <div class="border-b py-4">
+          <p class="mb-2 font-bold text-xl">RELATÓRIO:</p>
+          <div class="shadow appearance-none border rounded w-full py-2 px-3">
+            <p>```md</p>
+            <span class="block"># INFORMAÇÕES DO PRESO:</span>
+            <span class="block">⭐ NOME: {{ form.nomePreso }}</span>
+            <span class="block">⭐ RG: {{ form.passaportePreso }}</span>
+            <div v-if="form.passaporteAdvogado">
+              <br />
+              <span class="block"># INFORMAÇÕES DO ADVOGADO:</span>
+              <span class="block">⭐ RG: {{ form.passaporteAdvogado }}</span>
+            </div>
+            <br />
+            <span class="block"
+              ># PENA TOTAL: {{ Math.floor(pena) }} ({{
+                100 - somaAtenuantes
+              }}%)</span
+            >
+            <span class="block"># MULTA: {{ multa }} (100%)</span>
+            <div v-if="crimes.length">
+              <br />
+              <span class="block"># CRIMES:</span>
+              <span class="block" v-for="(crime, index) in crimes" :key="index">
+                {{ crime.label }}
+              </span>
+            </div>
+            <div v-if="form.itensApreendidos">
+              <br />
+              <span class="block">#ITENS APREENDIDOS</span>
+              <span
+                class="block"
+                v-html="form.itensApreendidos"
+                style="white-space: break-spaces"
+              ></span>
+            </div>
+            <div v-if="somaAtenuantes > 0">
+              <br />
+              <span class="block"># ATENUANTES:</span>
+              <span
+                class="block"
+                v-for="(atenuante, index) in atenuantes.filter(
+                  (el) => el.selected
+                )"
+                :key="index"
+              >
+                {{ atenuante.label }}
+              </span>
+            </div>
+            <br />
+            <span class="block"
+              ># 📋 Porte de arma:
+              {{
+                atenuantes.filter(
+                  (el) => el.label == "📋 Possui porte de arma"
+                )[0].selected
+                  ? "Sim"
+                  : "Não"
+              }}</span
+            >
+            <br />
+            <span class="block">⭐ DATA: {{ dataHora }}</span>
+            <p>```</p>
+          </div>
+        </div>
+        <div class="mt-4">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            @click="copiar"
+          >
+            Copiar
+          </button>
+        </div>
       </div>
     </div>
+    <div class="grid grid-cols-1 gap-4 mt-4"></div>
   </div>
 </template>
 
@@ -670,6 +672,8 @@ export default {
           pena: 10,
           multa: 10000,
           fianca: 20000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de armas",
         },
         {
           label: "Art. 43 - Tráfico de Itens Ilegais",
@@ -677,6 +681,8 @@ export default {
           pena: 10,
           multa: 15000,
           fianca: 20000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de itens ilegais",
         },
         {
           label: "Art. 44 - Tráfico de Munições (+100)",
@@ -684,6 +690,8 @@ export default {
           pena: 8,
           multa: 5000,
           fianca: 8000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de munições",
         },
         {
           label: "Art. 45 - Tráfico de Drogas (+100)",
@@ -691,6 +699,8 @@ export default {
           pena: 10,
           multa: 50000,
           fianca: 80000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de drogas",
         },
         {
           label: "Art. 46 - Porte de Arma Pesada",
@@ -698,6 +708,8 @@ export default {
           pena: 5,
           multa: 15000,
           fianca: 20000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de armas pesadas",
         },
         {
           label: "Art. 47 - Porte de Arma Leve",
@@ -705,6 +717,8 @@ export default {
           pena: 3,
           multa: 10000,
           fianca: 15000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de armas leves",
         },
         {
           label: "Art. 48 - Porte de Arma Branca",
@@ -712,6 +726,8 @@ export default {
           pena: 0,
           multa: 5000,
           fianca: 7000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de armas brancas",
         },
         {
           label: "Art. 49 - Posse de Peças de Armas",
@@ -719,6 +735,8 @@ export default {
           pena: 5,
           multa: 10000,
           fianca: 15000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de peças de armas",
         },
         {
           label: "Art. 50 - Posse de Cápsulas",
@@ -726,6 +744,8 @@ export default {
           pena: 5,
           multa: 10000,
           fianca: 15000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de cápsulas",
         },
         {
           label: "Art. 51 - Disparo de Arma de Fogo",
@@ -740,6 +760,8 @@ export default {
           pena: 3,
           multa: 5000,
           fianca: 8000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de munições",
         },
         {
           label: "Art. 53 - Posse de Colete",
@@ -747,6 +769,8 @@ export default {
           pena: 2,
           multa: 1000,
           fianca: 5000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de coletes",
         },
         {
           label: "Art. 54 - Aviãozinho (6 a 100)",
@@ -754,6 +778,8 @@ export default {
           pena: 20,
           multa: 15000,
           fianca: 30000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de drogas",
         },
         {
           label: "Art. 55 - Posse de Componentes Narcóticos",
@@ -761,6 +787,8 @@ export default {
           pena: 10,
           multa: 5000,
           fianca: 10000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de narcóticos",
         },
         {
           label: "Art. 56 - Posse de Drogas (1 a 5)",
@@ -768,6 +796,8 @@ export default {
           pena: 0,
           multa: 10000,
           fianca: 0,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de drogas",
         },
         {
           label: "Art. 57 - Posse de Itens Ilegais",
@@ -775,6 +805,8 @@ export default {
           pena: 5,
           multa: 10000,
           fianca: 15000,
+          itemsRequired: true,
+          errorMessage: "Preencha a quantidade de itens ilegais",
         },
         {
           label: "Art. 58 - Dinheiro Sujo",
@@ -1030,6 +1062,20 @@ export default {
       v = v.replace(/(\d{1})(\d{1,2})$/, "$1,$2");
 
       this.form.dinheiroSujo = v;
+    },
+    copiar() {
+      let crimes = this.crimes;
+
+      if (
+        crimes.some(
+          (el) => el.itemsRequired && el.selected && !this.form.itensApreendidos
+        )
+      ) {
+        let message = crimes
+          .filter((el) => el.itemsRequired && el.selected)
+          .map((el) => el.errorMessage);
+        alert(message);
+      }
     },
   },
 };

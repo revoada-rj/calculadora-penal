@@ -22,7 +22,8 @@ module.exports = {
         tahiti: "#3ab7bf",
         silver: "#ecebff",
         "bubble-gum": "#ff77e9",
-        bermuda: "#78dcca"
+        bermuda: "#78dcca",
+        "blue-custom": "#005bff",
       },
     },
   },
