@@ -178,6 +178,14 @@
             v-model="form.dinheiroSujo"
           />
           <div class="flex flex-col">
+            <label>Multa</label>
+            <div
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            >
+              {{ parseToBrl(multa) }}
+            </div>
+          </div>
+          <div class="flex flex-col">
             <label>Fiança total</label>
             <div
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -1003,7 +1011,16 @@ export default {
         return this.parseToBrl(this.crimes[0].multa);
       }
 
-      return this.parseToBrl(this.crimes.reduce((a, b) => a + b.multa, 0));
+      let multa = this.crimes.reduce((a, b) => a + b.multa, 0);
+
+      if (this.form.dinheiroSujo) {
+        let dinheiroSujo = parseFloat(
+          this.form.dinheiroSujo.replaceAll(".", "").replaceAll(",", ".")
+        );
+        multa += dinheiroSujo / 2;
+      }
+
+      return this.parseToBrl(multa);
     },
     somaAtenuantes() {
       let atenuantes = this.atenuantes.filter((el) => el.selected);
