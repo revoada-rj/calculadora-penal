@@ -286,6 +286,39 @@
       </div>
     </div>
     <div class="grid grid-cols-1 gap-4 mt-4"></div>
+
+    <div
+      class="fixed flex items-center justify-center"
+      style="
+        z-index: 9999999999999999999999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgb(0, 0, 0, 0.3);
+      "
+      v-if="displayError"
+    >
+      <div class="rounded bg-slate-50 shadow py-5 px-5 w-2/3 md:w-1/3">
+        <div class="flex items-center justify-between mb-4">
+          <p class="text-2xl font-bold">Atenção!</p>
+          <span
+            class="font-bold text-xl cursor-pointer hover:text-slate-500 transition ease-in-out"
+            @click="displayError = false"
+            >X</span
+          >
+        </div>
+        <p class="mb-1" v-for="(message, index) in errorMessage" :key="index">
+          {{ message }}
+        </p>
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+          @click="displayError = false"
+        >
+          Entendi
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -916,6 +949,8 @@ export default {
           reducao: 30,
         },
       ],
+      errorMessage: [],
+      displayError: false,
     };
   },
 
@@ -1071,11 +1106,70 @@ export default {
           (el) => el.itemsRequired && el.selected && !this.form.itensApreendidos
         )
       ) {
-        let message = crimes
+        let messages = crimes
           .filter((el) => el.itemsRequired && el.selected)
           .map((el) => el.errorMessage);
-        alert(message);
+
+        this.errorMessage = messages;
+        this.displayError = true;
+        return;
       }
+
+      let text = "QRA:\n```md";
+
+      text += `\n# INFORMAÇÕES DO PRESO:`;
+      text += `\n⭐ NOME: ${this.form.nomePreso}`;
+      text += `\n⭐ RG: ${this.form.passaportePreso}`;
+
+      if (this.form.passaporteAdvogado) {
+        text += `\n# INFORMAÇÕES DO PRESO:`;
+        text += `\n⭐ RG: ${this.form.passaporteAdvogado}`;
+      }
+
+      text += `\n# PENA TOTAL: ${Math.floor(this.pena)} (${
+        100 - this.somaAtenuantes
+      })`;
+
+      text += `\n# MULTA: ${this.multa}`;
+
+      text += `\n# CRIMES:`;
+
+      this.crimes.map((crime) => {
+        text += `\n${crime.label}`;
+      });
+
+      if (this.form.itensApreendidos) {
+        text += `\n${this.form.itensApreendidos}`;
+      }
+
+      if (this.form.somaAtenuantes > 0) {
+        this.atenuantes
+          .filter((el) => el.selected)
+          .map((atenuante) => {
+            text += `\n${atenuante.label}`;
+          });
+      }
+
+      let porte = this.atenuantes.filter(
+        (el) => el.label == "📋 Possui porte de arma"
+      )[0].selected
+        ? "Sim"
+        : "Não";
+
+      text += `\n# 📋 Porte de arma: ${porte}`;
+
+      text += `\n⭐ DATA: ${this.dataHora}`;
+
+      text += "\n```";
+
+      let textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.append(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      alert("copiado");
     },
   },
 };
