@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN yarn install
+RUN npm install
 
 # Copy all files
 COPY . .
 
 # Build app
-RUN yarn build && yarn generate
+RUN npm run build && npm run generate
 
 # nginx state for serving content
 FROM nginx:stable as production-stage
