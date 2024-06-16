@@ -1,7 +1,18 @@
 <template>
-  <div class="flex justify-center items-center h-screen">
-    <h1 class="text-xl font-bold text-blue-500">
-      Hello, Tailwind CSS with Nuxt.js!
-    </h1>
-  </div>
+  <div class="px-4 mt-4">
+		<h1 class="text-4xl font-bold">Calculadora Penal</h1>
+		<small>A calculadora é uma maneira rápida e simples de realizar a somatória de todas as imputações penais.</small>
+	</div>
+	<FormCalculadora class="px-4"/>
 </template>
+
+<script>
+import FormCalculadora from '~/components/calculadora-penal/form.vue';
+export default {
+  name: "CalculadoraPenalIndex",
+	components: {
+		FormCalculadora,
+	},
+  mounted() {},
+};
+</script>
