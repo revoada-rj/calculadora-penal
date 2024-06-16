@@ -1008,7 +1008,16 @@ export default {
       if (!this.crimes.length) return "0,00";
 
       if (this.crimes.length == 1) {
-        return this.parseToBrl(this.crimes[0].multa);
+        let multa = this.crimes[0].multa;
+
+        if (this.form.dinheiroSujo) {
+          let dinheiroSujo = parseFloat(
+            this.form.dinheiroSujo.replaceAll(".", "").replaceAll(",", ".")
+          );
+          multa += dinheiroSujo / 2;
+        }
+
+        return this.parseToBrl(multa);
       }
 
       let multa = this.crimes.reduce((a, b) => a + b.multa, 0);
