@@ -18,7 +18,10 @@
             :key="index"
             @click="toggleSelectedCrime(crime)"
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
-            :class="{ 'text-green-600': crime.selected }"
+            :class="{
+              'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
+            }"
           >
             {{ crime.label }}
           </div>
@@ -35,6 +38,7 @@
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
             :class="{
               'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
             }"
           >
             {{ crime.label }}
@@ -52,6 +56,7 @@
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
             :class="{
               'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
             }"
           >
             {{ crime.label }}
@@ -69,6 +74,7 @@
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
             :class="{
               'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
             }"
           >
             {{ crime.label }}
@@ -84,6 +90,7 @@
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
             :class="{
               'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
             }"
           >
             {{ crime.label }}
@@ -101,6 +108,7 @@
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
             :class="{
               'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
             }"
           >
             {{ crime.label }}
@@ -116,19 +124,11 @@
             class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-green-100 transition ease-in-out delay-50"
             :class="{
               'text-green-600': crime.selected,
+              'bg-green-100': crime.selected,
             }"
           >
             {{ crime.label }}
           </div>
-        </div>
-
-        <!-- ITENS APREENDIDOS -->
-        <div class="border-b py-4 md:border-b-0 py-4">
-          <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
-          <textarea
-            v-model="form.itensApreendidos"
-            class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          ></textarea>
         </div>
       </div>
       <div>
@@ -168,6 +168,14 @@
           >
             🔹 Réu reincidente
           </div>
+        </div>
+        <!-- ITENS APREENDIDOS -->
+        <div class="border-b py-4 md:border-b-0 py-4">
+          <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
+          <textarea
+            v-model="form.itensApreendidos"
+            class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          ></textarea>
         </div>
         <!-- FIANÇA -->
         <div class="border-b py-4">
