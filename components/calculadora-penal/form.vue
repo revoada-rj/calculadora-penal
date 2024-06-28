@@ -703,7 +703,7 @@ export default {
         },
         {
           label: "Art. 40 - Réu Reincidente",
-          selected: false,
+          selected: true,
           pena: 5,
           multa: 0,
           fianca: 0,
