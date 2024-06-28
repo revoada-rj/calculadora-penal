@@ -1226,7 +1226,8 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(textArea);
 
-      alert("copiado");
+      this.errorMessage.push("Copiado");
+      this.displayError = true;
     },
   },
 };
