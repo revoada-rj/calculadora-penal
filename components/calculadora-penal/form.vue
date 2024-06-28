@@ -1133,6 +1133,29 @@ export default {
       this.form.dinheiroSujo = v;
     },
     copiar() {
+      this.errorMessage = [];
+
+      if (!this.form.passaportePreso) {
+        this.errorMessage.push("Informe o passaporte do preso!");
+      }
+
+      if (!this.form.nomePreso) {
+        this.errorMessage.push("Informe o nome do preso!");
+      }
+
+      if (this.atenuantes[0].selected && !this.form.passaporteAdvogado) {
+        this.errorMessage.push("Informe o passaporte do advogado!");
+      }
+
+      if (!this.crimes.length) {
+        this.errorMessage.push("Selecione ao menos um crime!");
+      }
+
+      if (this.errorMessage.length) {
+        this.displayError = true;
+        return;
+      }
+
       let crimes = this.crimes;
 
       if (
