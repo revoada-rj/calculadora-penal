@@ -4,14 +4,15 @@
     <div class="col-span-10 border rounded-lg">
       <div class="flex items-center justify-center py-4 px-4 border-b gap-8 active-tab">
         <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="previousTab">
-          <</span>
-            <div class="flex flex-col items-center justify-center text-center font-bold cursor-pointer"
-              :class="{'active-tab': activeTab == index}" v-for="(tab, index) in tabs" :key="index"
-              v-show="index == activeTab" @click="selectTab(index)">
-              <span class="text-3xl">{{index + 1}}</span>
-              <span class="text-md">{{tab}}</span>
-            </div>
-            <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="nextTab">></span>
+          &lt;
+        </span>
+        <div class="flex flex-col items-center justify-center text-center font-bold cursor-pointer"
+          :class="{'active-tab': activeTab == index}" v-for="(tab, index) in tabs" :key="index"
+          v-show="index == activeTab" @click="selectTab(index)">
+          <span class="text-3xl">{{index + 1}}</span>
+          <span class="text-md">{{tab}}</span>
+        </div>
+        <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="nextTab">&gt;</span>
       </div>
       <!-- stepper -->
       <div class="p-4">
@@ -108,6 +109,11 @@
                 <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
                 <textarea v-model="form.itensApreendidos" ref="itensApreendidos"
                   class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+
+                <div v-if="crimesContraOrdemPublica[28].selected">
+                  <p class="mb-2 font-bold text-xl">DINHEIRO SUJO:</p>
+                  <text-input @keyup="moeda" v-model="form.dinheiroSujo" />
+                </div>
               </div>
             </div>
             <!-- CRIMES DE TRÂNSITO -->
@@ -178,6 +184,18 @@
                   100 - somaAtenuantes
                   }}%)</span>
                 <span class="block"># MULTA: {{ multa }} (100%)</span>
+                <div v-if="crimesContraOrdemPublica[28].selected">
+                  <br>
+                  <span class="block"># DINHEIRO SUJO</span>
+                  <span class="block">R$ {{ form.dinheiroSujo }}</span>
+                </div>
+                <div v-if="crimes.length">
+                  <br />
+                  <span class="block"># CRIMES:</span>
+                  <span class="block" v-for="(crime, index) in crimes" :key="index">
+                    {{ crime.label }}
+                  </span>
+                </div>
                 <div v-if="crimes.length">
                   <br />
                   <span class="block"># CRIMES:</span>
@@ -254,6 +272,11 @@
                   100 - somaAtenuantes
                   }}%)</span>
                 <span class="block"># MULTA: {{ multa }} (100%)</span>
+                <div v-if="crimesContraOrdemPublica[28].selected">
+                  <br>
+                  <span class="block"># DINHEIRO SUJO</span>
+                  <span class="block">R$ {{ form.dinheiroSujo }}</span>
+                </div>
                 <div v-if="crimes.length">
                   <br />
                   <span class="block"># CRIMES:</span>
@@ -293,7 +316,6 @@
             <div class="border-b py-4">
               <p class="mb-2 font-bold text-xl">FIANÇA:</p>
               <div class="shadow appearance-none border rounded w-full py-2 px-3">
-                <text-input label="Dinheiro sujo" @keyup="moeda" v-model="form.dinheiroSujo" />
                 <div class="flex flex-col">
                   <label>Multa</label>
                   <div
@@ -1235,6 +1257,11 @@
 
         text += `\n\n# MULTA: ${this.multa}`;
 
+        if (this.form.dinheiroSujo) {
+          text += `\n\n# DINHEIRO SUJO`;
+          text += `\nR$ ${this.form.dinheiroSujo}`
+        }
+
         text += `\n\n# CRIMES:`;
 
         this.crimes.map((crime) => {
@@ -1308,6 +1335,12 @@
             this.activeTab = 6;
             return;
           }
+
+          if (this.crimesContraOrdemPublica[28].selected && (!this.form.dinheiroSujo || this.form.dinheiroSujo < 1)) {
+            this.errorMessage = ['Preencha a quantidade de dinheiro sujo!'];
+            this.displayError = true;
+            this.activeTab = 6;
+          }
         }
 
         if (this.errorMessage.length) {
@@ -1315,10 +1348,14 @@
           return;
         }
 
-        this.activeTab++;
+        if (this.activeTab < this.tabs.length) {
+          this.activeTab++;
+        }
       },
       previousTab() {
-        this.activeTab--;
+        if (this.activeTab > 0) {
+          this.activeTab--;
+        }
       }
     },
   };
