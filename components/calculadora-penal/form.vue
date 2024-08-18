@@ -136,7 +136,7 @@
                 :class="{
                   'text-blue-600': !crimesContraOrdemPublica[10].selected,
                   'bg-blue-100': !crimesContraOrdemPublica[10].selected,
-                }" @click="toggleReincidente">
+                }" @click="toggleReincidente(false)">
                 🔹 Réu primário
               </div>
               <div
@@ -144,12 +144,12 @@
                 :class="{
                   'text-blue-600': crimesContraOrdemPublica[10].selected,
                   'bg-blue-100': crimesContraOrdemPublica[10].selected,
-                }" @click="toggleReincidente">
+                }" @click="toggleReincidente(true)">
                 🛑 Réu reincidente
               </div>
             </div>
             <!-- ATENUANTES -->
-            <div v-if="activeTab == 9">
+            <div v-if=" activeTab==9">
               <p class="mb-2 font-bold text-xl">ATENUANTES:</p>
               <div v-for="(atenuante, index) in atenuantes" :key="index" @click="toggleSelectedCrime(atenuante)"
                 class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
@@ -160,8 +160,10 @@
                 {{ atenuante.label }}
               </div>
 
-              <text-input label="Passaporte do advogado" v-model="form.passaporteAdvogado"
-                v-if="atenuantes[0].selected" />
+              <div v-if="atenuantes[0].selected">
+                <p class="mb-2 font-bold text-xl">PASSAPORTE DO ADVOGADO:</p>
+                <text-input v-model="form.passaporteAdvogado" />
+              </div>
 
             </div>
           </div>
@@ -188,13 +190,6 @@
                   <br>
                   <span class="block"># DINHEIRO SUJO</span>
                   <span class="block">R$ {{ form.dinheiroSujo }}</span>
-                </div>
-                <div v-if="crimes.length">
-                  <br />
-                  <span class="block"># CRIMES:</span>
-                  <span class="block" v-for="(crime, index) in crimes" :key="index">
-                    {{ crime.label }}
-                  </span>
                 </div>
                 <div v-if="crimes.length">
                   <br />
@@ -1015,10 +1010,15 @@
             selected: false,
             reducao: 0,
           },
+          {
+            label: "🔹 Réu primário: Redução de 20% na pena total",
+            selected: false,
+            reducao: 20,
+          },
         ],
         errorMessage: [],
         displayError: false,
-        activeTab: 0,
+        activeTab: 8,
         tabs: [
           'DADOS DO PRESO',
           'CONTRA A VIDA',
@@ -1031,7 +1031,8 @@
           'SITUAÇÃO',
           'ATENUANTES',
           'RESUMO',
-        ]
+        ],
+        reuPrimario: false,
       };
     },
 
@@ -1180,9 +1181,15 @@
           currency: "BRL",
         });
       },
-      toggleReincidente() {
-        this.crimesContraOrdemPublica[10].selected =
-          !this.crimesContraOrdemPublica[10].selected;
+      toggleReincidente(situacao) {
+        if (situacao) {
+          this.atenuantes[4].selected = false;
+          this.crimesContraOrdemPublica[10].selected = true;
+          return;
+        }
+
+        this.atenuantes[4].selected = true;
+        this.crimesContraOrdemPublica[10].selected = false;
       },
       toggleMandato() {
         this.form.mandato = !this.form.mandato;
@@ -1348,7 +1355,7 @@
           return;
         }
 
-        if (this.activeTab < this.tabs.length) {
+        if (this.activeTab < this.tabs.length - 1) {
           this.activeTab++;
         }
       },
