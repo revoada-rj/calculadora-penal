@@ -1018,7 +1018,7 @@
         ],
         errorMessage: [],
         displayError: false,
-        activeTab: 8,
+        activeTab: 0,
         tabs: [
           'DADOS DO PRESO',
           'CONTRA A VIDA',
