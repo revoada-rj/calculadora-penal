@@ -17,8 +17,8 @@
       <!-- stepper -->
       <div class="p-4">
         <div v-if="activeTab == 0">
-          <text-input label="Passaporte do preso" v-model="form.passaportePreso" />
-          <text-input label="Nome do preso" v-model="form.nomePreso" />
+          <text-input label="Passaporte do preso" v-model="form.passaportePreso" type="number" />
+          <text-input label="Nome do preso" v-model="form.nomePreso" type="text" />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -112,7 +112,7 @@
 
                 <div v-if="crimesContraOrdemPublica[28].selected">
                   <p class="mb-2 font-bold text-xl">DINHEIRO SUJO:</p>
-                  <text-input @keyup="moeda" v-model="form.dinheiroSujo" />
+                  <text-input @keyup="moeda" v-model="form.dinheiroSujo" type="text"/>
                 </div>
               </div>
             </div>
@@ -151,7 +151,7 @@
             <!-- ATENUANTES -->
             <div v-if=" activeTab==9">
               <p class="mb-2 font-bold text-xl">ATENUANTES:</p>
-              <div v-for="(atenuante, index) in atenuantes" :key="index" @click="toggleSelectedCrime(atenuante)"
+              <div v-for="(atenuante, index) in atenuantes" :key="index" @click="toggleSelectedCrime(atenuante)" v-show="index < 4"
                 class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
                 :class="{
                   'text-blue-600': atenuante.selected,
@@ -162,7 +162,7 @@
 
               <div v-if="atenuantes[0].selected">
                 <p class="mb-2 font-bold text-xl">PASSAPORTE DO ADVOGADO:</p>
-                <text-input v-model="form.passaporteAdvogado" />
+                <text-input v-model="form.passaporteAdvogado" type="number" />
               </div>
 
             </div>
@@ -1347,6 +1347,14 @@
             this.errorMessage = ['Preencha a quantidade de dinheiro sujo!'];
             this.displayError = true;
             this.activeTab = 6;
+          }
+        }
+
+        if (currentTab == 9) {
+          if (!this.form.passaporteAdvogado && this.atenuantes[0].selected) {
+            this.errorMessage = ['Preencha o passaporte do advogado!'];
+            this.displayError = true;
+            this.activeTab = 9;
           }
         }
 
