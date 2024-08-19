@@ -1012,7 +1012,7 @@
           },
           {
             label: "🔹 Réu primário: Redução de 20% na pena total",
-            selected: false,
+            selected: true,
             reducao: 20,
           },
         ],
