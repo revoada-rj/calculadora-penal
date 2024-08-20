@@ -2,17 +2,18 @@
   <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-8">
     <div class="col-span-1"></div>
     <div class="col-span-10 border rounded-lg">
-      <div class="flex items-center justify-center py-4 px-4 border-b gap-8 active-tab">
-        <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="previousTab">
-          &lt;
-        </span>
-        <div class="flex flex-col items-center justify-center text-center font-bold cursor-pointer"
+      <div class="flex items-center py-4 px-4 border-b gap-8 active-tab">
+        <div class="flex flex-col font-bold"
           :class="{'active-tab': activeTab == index}" v-for="(tab, index) in tabs" :key="index"
           v-show="index == activeTab" @click="selectTab(index)">
-          <span class="text-3xl">{{index + 1}}</span>
-          <span class="text-md">{{tab}}</span>
+          <span class="text-6xl">{{(index + 1).toString().padStart(2, '0')}}</span>
+          <span class="text-sm">{{tab}}</span>
         </div>
-        <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="nextTab">&gt;</span>
+        <!-- <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="previousTab">
+          &lt;
+        </span>
+        
+        <span style="font-size: 24px; font-weight: bolder; cursor: pointer" @click="nextTab">&gt;</span> -->
       </div>
       <!-- stepper -->
       <div class="p-4">
@@ -112,7 +113,7 @@
 
                 <div v-if="crimesContraOrdemPublica[28].selected">
                   <p class="mb-2 font-bold text-xl">DINHEIRO SUJO:</p>
-                  <text-input @keyup="moeda" v-model="form.dinheiroSujo" type="text"/>
+                  <text-input @keyup="moeda" v-model="form.dinheiroSujo" type="text" />
                 </div>
               </div>
             </div>
@@ -151,7 +152,8 @@
             <!-- ATENUANTES -->
             <div v-if=" activeTab==9">
               <p class="mb-2 font-bold text-xl">ATENUANTES:</p>
-              <div v-for="(atenuante, index) in atenuantes" :key="index" @click="toggleSelectedCrime(atenuante)" v-show="index < 4"
+              <div v-for="(atenuante, index) in atenuantes" :key="index" @click="toggleSelectedCrime(atenuante)"
+                v-show="index < 4"
                 class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
                 :class="{
                   'text-blue-600': atenuante.selected,
@@ -165,8 +167,7 @@
                 <text-input v-model="form.passaporteAdvogado" type="number" />
               </div>
 
-              <div @click="fiancaPaga = !fiancaPaga"
-                v-if="atenuantes[0].selected"
+              <div @click="toogleFianca()" v-if="atenuantes[0].selected"
                 class="mt-2 border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
                 :class="{
                   'text-blue-600': fiancaPaga,
@@ -1318,7 +1319,7 @@
 
         text += `\n\n# 📋 Porte de arma: ${porte}`;
 
-        if(this.fiancaPaga) {
+        if (this.fiancaPaga) {
           text += `\n\n🔹 Fiança paga`;
         }
 
@@ -1395,6 +1396,14 @@
         if (this.activeTab > 0) {
           this.activeTab--;
         }
+      },
+      toogleFianca() {
+
+        console.log(this.crimes.filter(el => el.fianca === null && el.selected).length)
+
+        if(this.crimes.filter(el => el.fianca === null && el.selected).length > 0) return false;
+
+        this.fiancaPaga = !this.fiancaPaga
       }
     },
   };
