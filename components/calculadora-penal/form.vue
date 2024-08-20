@@ -165,6 +165,16 @@
                 <text-input v-model="form.passaporteAdvogado" type="number" />
               </div>
 
+              <div @click="fiancaPaga = !fiancaPaga"
+                v-if="atenuantes[0].selected"
+                class="mt-2 border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
+                :class="{
+                  'text-blue-600': fiancaPaga,
+                  'bg-blue-100': fiancaPaga,
+                }">
+                🔹 Fiança Paga
+              </div>
+
             </div>
           </div>
           <div v-if="activeTab > 0 && activeTab < tabs.length - 1">
@@ -221,6 +231,11 @@
                   ? "Sim"
                   : "Não"
                   }}</span>
+
+                <div v-if="fiancaPaga">
+                  <br>
+                  <span class="block">⭐ 🔹 Fiança paga</span>
+                </div>
                 <br />
                 <span class="block">⭐ DATA: {{ dataHora }}</span>
                 <p>```</p>
@@ -302,6 +317,10 @@
                   ? "Sim"
                   : "Não"
                   }}</span>
+                <div v-if="fiancaPaga">
+                  <br>
+                  <span class="block">⭐ 🔹 Fiança paga</span>
+                </div>
                 <br />
                 <span class="block">⭐ DATA: {{ dataHora }}</span>
                 <p>```</p>
@@ -1033,6 +1052,7 @@
           'RESUMO',
         ],
         reuPrimario: false,
+        fiancaPaga: false,
       };
     },
 
@@ -1297,6 +1317,10 @@
           : "Não";
 
         text += `\n\n# 📋 Porte de arma: ${porte}`;
+
+        if(this.fiancaPaga) {
+          text += `\n\n🔹 Fiança paga`;
+        }
 
         text += `\n\n⭐ DATA: ${this.dataHora}`;
 
