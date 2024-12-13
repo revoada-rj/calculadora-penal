@@ -224,11 +224,12 @@
                     </div>
                   </span>
                 </div>
-                <div v-if="form.itensApreendidos">
+                <div v-if="form.itensApreendidos || form.dinheiroSujo">
                   <br />
-                  <span class="block">#ITENS APREENDIDOS</span>
+                  <span class="block"># ITENS APREENDIDOS</span>
+                  <span v-if="form.dinheiroSujo" class="block" style="white-space: break-spaces">R$ {{ form.dinheiroSujo
+                  }} dinheiro sujo</span>
                   <span class="block" v-html="form.itensApreendidos" style="white-space: break-spaces"></span>
-                  R$ {{ form.dinheiroSujo }}
                 </div>
                 <div v-if="somaAtenuantes > 0">
                   <br />
