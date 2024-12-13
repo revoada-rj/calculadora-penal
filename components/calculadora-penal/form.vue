@@ -465,7 +465,7 @@
         crimesContraVida: [
           {
             label: "Art. 5 - Tentativa de Homicídio**",
-            subtitle: "Quando um individuo tenta matar alguém mas não consegue.",
+            subtitle: "Quando um individuo tenta matar alguém, mas não consegue.",
             selected: false,
             pena: 5,
             multa: 20000,
