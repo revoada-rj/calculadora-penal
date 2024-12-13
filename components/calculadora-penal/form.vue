@@ -1253,7 +1253,10 @@
       toggleSelectedCrime(crime) {
         crime.selected = !crime.selected;
 
-        console.log('aaaa', crime.label == 'Art. 40 - Réu Reincidente' && crime.selected)
+        if (crime.label == "Art. 58 - Dinheiro Sujo") {
+          this.form.dinheiroSujo = null;
+        }
+
         if (crime.label == 'Art. 40 - Réu Reincidente' && crime.selected) {
           this.form.reuPrimario = false
           this.atenuantes[4].selected = false
