@@ -107,6 +107,11 @@
                 <span v-if="crime.subtitle" style="font-size: 12px" class="text-gray-400">{{ crime.subtitle }}</span>
               </div>
               <!-- ITENS APREENDIDOS -->
+              <div v-if="crimesContraOrdemPublica[28].selected">
+                <p class="mb-2 font-bold text-xl">DINHEIRO SUJO:</p>
+                <text-input @keyup="moeda" v-model="form.dinheiroSujo" type="text" />
+              </div>
+
               <div class="border-b py-4 md:border-b-0 py-4" style="position: relative">
                 <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
 
@@ -121,11 +126,6 @@
                 <span v-if="form.dinheiroSujo"
                   style="position: absolute; top: 60px; left: 13px; color: rgb(55, 65, 81)">R$ {{ form.dinheiroSujo }}
                   dinheiro sujo</span>
-
-                <div v-if="crimesContraOrdemPublica[28].selected">
-                  <p class="mb-2 font-bold text-xl">DINHEIRO SUJO:</p>
-                  <text-input @keyup="moeda" v-model="form.dinheiroSujo" type="text" />
-                </div>
               </div>
             </div>
             <!-- CRIMES DE TRÂNSITO -->
@@ -228,7 +228,7 @@
                   <br />
                   <span class="block"># ITENS APREENDIDOS</span>
                   <span v-if="form.dinheiroSujo" class="block" style="white-space: break-spaces">R$ {{ form.dinheiroSujo
-                  }} dinheiro sujo</span>
+                    }} dinheiro sujo</span>
                   <span class="block" v-html="form.itensApreendidos" style="white-space: break-spaces"></span>
                 </div>
                 <div v-if="somaAtenuantes > 0">
