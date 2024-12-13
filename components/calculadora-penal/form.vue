@@ -205,8 +205,11 @@
                 <div v-if="crimes.length">
                   <br />
                   <span class="block"># CRIMES:</span>
-                  <span class="block" v-for="(crime, index) in crimes" :key="index">
+                  <span class="block flex items-center gap-2" v-for="(crime, index) in crimes" :key="index">
                     {{ crime.label }}
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(crime)">
+                      <span title="Remover crime">x</span>
+                    </div>
                   </span>
                 </div>
                 <div v-if="form.itensApreendidos">
@@ -217,10 +220,13 @@
                 <div v-if="somaAtenuantes > 0">
                   <br />
                   <span class="block"># ATENUANTES:</span>
-                  <span class="block" v-for="(atenuante, index) in atenuantes.filter(
+                  <span class="block flex items-center gap-2" v-for="(atenuante, index) in atenuantes.filter(
                     (el) => el.selected
                   )" :key="index">
                     {{ atenuante.label }}
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(atenuante)">
+                      <span title="Remover atenuante">x</span>
+                    </div>
                   </span>
                 </div>
                 <br />
@@ -291,8 +297,11 @@
                 <div v-if="crimes.length">
                   <br />
                   <span class="block"># CRIMES:</span>
-                  <span class="block" v-for="(crime, index) in crimes" :key="index">
+                  <span class="block flex items-center gap-2" v-for="(crime, index) in crimes" :key="index">
                     {{ crime.label }}
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(crime)">
+                      <span title="Remover crime">x</span>
+                    </div>
                   </span>
                 </div>
                 <div v-if="form.itensApreendidos">
@@ -303,10 +312,13 @@
                 <div v-if="somaAtenuantes > 0">
                   <br />
                   <span class="block"># ATENUANTES:</span>
-                  <span class="block" v-for="(atenuante, index) in atenuantes.filter(
+                  <span class="block flex items-center gap-2" v-for="(atenuante, index) in atenuantes.filter(
                     (el) => el.selected
                   )" :key="index">
                     {{ atenuante.label }}
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(atenuante)">
+                      <span title="Remover atenuante">x</span>
+                    </div>
                   </span>
                 </div>
                 <br />
@@ -583,21 +595,21 @@
             label: "Art. 25 - Desacato**",
             selected: false,
             pena: 20,
-            multa: 50000,
+            multa: 70000,
             fianca: null,
           },
           {
             label: "Art. 25.1 - Desacato 2x**",
             selected: false,
             pena: 20,
-            multa: 50000,
+            multa: 70000,
             fianca: null,
           },
           {
             label: "Art. 25.2 - Desacato 3x**",
             selected: false,
             pena: 20,
-            multa: 50000,
+            multa: 70000,
             fianca: null,
           },
           {
@@ -1021,7 +1033,7 @@
           },
           {
             label:
-              "🏥 REANIMADO NO HP: Reduzir os minutos tomados até o hospital (obrigatório sempre que o preso tiver sido reanimado)",
+              "🏥 REANIMADO NO HP: Reduzir os minutos tomados até o hospital",
             selected: false,
             reducao: 30,
           },
@@ -1054,6 +1066,8 @@
         ],
         reuPrimario: false,
         fiancaPaga: false,
+        multiplicadorMulta: 2,
+        multiplicadorFianca: 4,
       };
     },
 
@@ -1104,6 +1118,7 @@
 
         if (this.crimes.length == 1) {
           let multa = this.crimes[0].multa;
+          multa = multa * this.multiplicadorMulta;
 
           if (this.form.dinheiroSujo) {
             let dinheiroSujo = parseFloat(
@@ -1116,7 +1131,12 @@
         }
 
         let multa = this.crimes.reduce((a, b) => a + b.multa, 0);
+        multa = multa * this.multiplicadorMulta;
 
+        if(multa > 700000) {
+          multa = 700000;
+        }
+        
         if (this.form.dinheiroSujo) {
           let dinheiroSujo = parseFloat(
             this.form.dinheiroSujo.replaceAll(".", "").replaceAll(",", ".")
@@ -1141,14 +1161,20 @@
         });
       },
       fiancaTotal() {
-        const semFianca =
+        const inafiancavel =
           this.crimes.some((a) => a.fianca === null) || this.form.mandato;
 
-        if (semFianca) {
+        if (inafiancavel) {
           return 0;
         }
 
         let fianca = this.crimes.reduce((a, b) => a + b.fianca, 0);
+
+        fianca = fianca * this.multiplicadorFianca;
+
+        if(fianca > 600000) {
+          fianca = 600000;
+        }
 
         if (this.form.dinheiroSujo) {
           let dinheiroSujo = parseFloat(
@@ -1157,7 +1183,7 @@
           fianca += dinheiroSujo / 2;
         }
 
-        return fianca * 1.3;
+        return fianca;
       },
       fiancaPolicial() {
         const fiancaTotal = this.fiancaTotal;
@@ -1398,12 +1424,12 @@
         }
       },
       toogleFianca() {
-
-        console.log(this.crimes.filter(el => el.fianca === null && el.selected).length)
-
         if(this.crimes.filter(el => el.fianca === null && el.selected).length > 0) return false;
 
         this.fiancaPaga = !this.fiancaPaga
+      },
+      remover(item) {
+        item.selected = false;
       }
     },
   };
