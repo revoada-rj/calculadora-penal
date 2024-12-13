@@ -3,9 +3,8 @@
     <div class="col-span-1"></div>
     <div class="col-span-10 border rounded-lg">
       <div class="flex items-center py-4 px-4 border-b gap-8 active-tab">
-        <div class="flex flex-col font-bold"
-          :class="{'active-tab': activeTab == index}" v-for="(tab, index) in tabs" :key="index"
-          v-show="index == activeTab" @click="selectTab(index)">
+        <div class="flex flex-col font-bold" :class="{'active-tab': activeTab == index}" v-for="(tab, index) in tabs"
+          :key="index" v-show="index == activeTab" @click="selectTab(index)">
           <span class="text-6xl">{{(index + 1).toString().padStart(2, '0')}}</span>
           <span class="text-sm">{{tab}}</span>
         </div>
@@ -28,12 +27,13 @@
               <div class="">
                 <p class="mb-2 font-bold text-xl">CRIMES CONTRA A VIDA:</p>
                 <div v-for="(crime, index) in crimesContraVida" :key="index" @click="toggleSelectedCrime(crime)"
-                  class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
+                  class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50 flex flex-col"
                   :class="{
                   'text-blue-600': crime.selected,
                   'bg-blue-100': crime.selected,
                 }">
-                  {{ crime.label }}
+                  <span>{{ crime.label }}</span>
+                  <span v-if="crime.subtitle" style="font-size: 12px" class="text-gray-400">{{ crime.subtitle }}</span>
                 </div>
               </div>
             </div>
@@ -98,18 +98,29 @@
             <div v-if="activeTab == 6">
               <p class="mb-2 font-bold text-xl">CRIMES CONTRA A ORDEM PÚBLICA:</p>
               <div v-for="(crime, index) in crimesContraOrdemPublica" :key="index" @click="toggleSelectedCrime(crime)"
-                class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50"
+                class="border rounded px-3 py-3 mb-2 cursor-pointer hover:bg-blue-100 transition ease-in-out delay-50 flex flex-col"
                 :class="{
                   'text-blue-600': crime.selected,
                   'bg-blue-100': crime.selected,
                 }">
-                {{ crime.label }}
+                <span>{{ crime.label }}</span>
+                <span v-if="crime.subtitle" style="font-size: 12px" class="text-gray-400">{{ crime.subtitle }}</span>
               </div>
               <!-- ITENS APREENDIDOS -->
-              <div class="border-b py-4 md:border-b-0 py-4">
+              <div class="border-b py-4 md:border-b-0 py-4" style="position: relative">
                 <p class="mb-2 font-bold text-xl">ITENS APREENDIDOS:</p>
-                <textarea v-model="form.itensApreendidos" ref="itensApreendidos"
-                  class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+
+                <textarea v-model="form.itensApreendidos" ref="itensApreendidos" v-if="form.dinheiroSujo"
+                  class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  style="padding-top: 30px;">
+                </textarea>
+                <textarea v-model="form.itensApreendidos" ref="itensApreendidos" v-else
+                  class="shadow appearance-none border rounded w-full h-[150px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </textarea>
+
+                <span v-if="form.dinheiroSujo"
+                  style="position: absolute; top: 60px; left: 13px; color: rgb(55, 65, 81)">R$ {{ form.dinheiroSujo }}
+                  dinheiro sujo</span>
 
                 <div v-if="crimesContraOrdemPublica[28].selected">
                   <p class="mb-2 font-bold text-xl">DINHEIRO SUJO:</p>
@@ -207,7 +218,8 @@
                   <span class="block"># CRIMES:</span>
                   <span class="block flex items-center gap-2" v-for="(crime, index) in crimes" :key="index">
                     {{ crime.label }}
-                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(crime)">
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100"
+                      @click="remover(crime)">
                       <span title="Remover crime">x</span>
                     </div>
                   </span>
@@ -216,6 +228,7 @@
                   <br />
                   <span class="block">#ITENS APREENDIDOS</span>
                   <span class="block" v-html="form.itensApreendidos" style="white-space: break-spaces"></span>
+                  R$ {{ form.dinheiroSujo }}
                 </div>
                 <div v-if="somaAtenuantes > 0">
                   <br />
@@ -224,7 +237,8 @@
                     (el) => el.selected
                   )" :key="index">
                     {{ atenuante.label }}
-                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(atenuante)">
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100"
+                      @click="remover(atenuante)">
                       <span title="Remover atenuante">x</span>
                     </div>
                   </span>
@@ -299,14 +313,17 @@
                   <span class="block"># CRIMES:</span>
                   <span class="block flex items-center gap-2" v-for="(crime, index) in crimes" :key="index">
                     {{ crime.label }}
-                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(crime)">
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100"
+                      @click="remover(crime)">
                       <span title="Remover crime">x</span>
                     </div>
                   </span>
                 </div>
-                <div v-if="form.itensApreendidos">
+                <div v-if="form.itensApreendidos || form.dinheiroSujo">
                   <br />
                   <span class="block">#ITENS APREENDIDOS</span>
+                  <span v-if="form.dinheiroSujo" class="block" style="white-space: break-spaces">R$ {{ form.dinheiroSujo
+                    }} dinheiro sujo</span>
                   <span class="block" v-html="form.itensApreendidos" style="white-space: break-spaces"></span>
                 </div>
                 <div v-if="somaAtenuantes > 0">
@@ -316,7 +333,8 @@
                     (el) => el.selected
                   )" :key="index">
                     {{ atenuante.label }}
-                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100" @click="remover(atenuante)">
+                    <div class="items-center justify-center text-red-800 cursor-pointer hover:text-red-100"
+                      @click="remover(atenuante)">
                       <span title="Remover atenuante">x</span>
                     </div>
                   </span>
@@ -447,6 +465,7 @@
         crimesContraVida: [
           {
             label: "Art. 5 - Tentativa de Homicídio**",
+            subtitle: "Quando um individuo tenta matar alguém mas não consegue.",
             selected: false,
             pena: 5,
             multa: 20000,
@@ -454,6 +473,7 @@
           },
           {
             label: "Art. 6 - Homicídio Culposo",
+            subtitle: "Quando um indivíduo mata alguém sem intenção.",
             selected: false,
             pena: 5,
             multa: 5000,
@@ -461,6 +481,7 @@
           },
           {
             label: "Art. 7 - Homicídio Doloso**",
+            subtitle: "Quando um indivíduo mata alguém de propósito, utilizando de meios cruéis.",
             selected: false,
             pena: 10,
             multa: 25000,
@@ -468,6 +489,7 @@
           },
           {
             label: "Art. 8 - Homicídio Doloso Qualificado**",
+            subtitle: "É uma forma mais grave de homicídio doloso, envolvendo circunstâncias agravantes.",
             selected: false,
             pena: 15,
             multa: 25000,
@@ -800,6 +822,7 @@
           },
           {
             label: "Art. 42 - Tráfico de Armas",
+            subtitle: "3 armas ou mais.",
             selected: false,
             pena: 10,
             multa: 20000,
@@ -809,6 +832,7 @@
           },
           {
             label: "Art. 43 - Tráfico de Itens Ilegais",
+            subtitle: "3 itens ou mais.",
             selected: false,
             pena: 10,
             multa: 15000,
@@ -817,7 +841,8 @@
             errorMessage: "Preencha a quantidade de itens ilegais",
           },
           {
-            label: "Art. 44 - Tráfico de Munições (+100)",
+            label: "Art. 44 - Tráfico de Munições",
+            subtitle: 'Acima de 100 munições.',
             selected: false,
             pena: 8,
             multa: 10000,
@@ -826,7 +851,8 @@
             errorMessage: "Preencha a quantidade de munições",
           },
           {
-            label: "Art. 45 - Tráfico de Drogas (+100)",
+            label: "Art. 45 - Tráfico de Drogas",
+            subtitle: 'Acima de 100 drogas.',
             selected: false,
             pena: 10,
             multa: 50000,
@@ -836,6 +862,7 @@
           },
           {
             label: "Art. 46 - Porte de Arma Pesada",
+            subtitle: "Menos de 3 armas.",
             selected: false,
             pena: 5,
             multa: 15000,
@@ -845,6 +872,7 @@
           },
           {
             label: "Art. 47 - Porte de Arma Leve",
+            subtitle: "Menos de 3 armas.",
             selected: false,
             pena: 5,
             multa: 10000,
@@ -887,7 +915,8 @@
             fianca: 10000,
           },
           {
-            label: "Art. 52 - Posse de Munição (-100)",
+            label: "Art. 52 - Posse de Munição",
+            subtitle: "100 munições ou menos.",
             selected: false,
             pena: 5,
             multa: 10000,
@@ -905,7 +934,8 @@
             errorMessage: "Preencha a quantidade de coletes",
           },
           {
-            label: "Art. 54 - Aviãozinho (6 a 100)",
+            label: "Art. 54 - Aviãozinho",
+            subtitle: "De 6 a 100 unidades (qualquer tipo de droga).",
             selected: false,
             pena: 20,
             multa: 15000,
@@ -923,7 +953,8 @@
             errorMessage: "Preencha a quantidade de narcóticos",
           },
           {
-            label: "Art. 56 - Posse de Drogas (1 a 5)",
+            label: "Art. 56 - Posse de Drogas",
+            subtitle: "De 1 a 5 unidades (qualquer tipo de droga).",
             selected: false,
             pena: 0,
             multa: 10000,
@@ -933,6 +964,7 @@
           },
           {
             label: "Art. 57 - Posse de Itens Ilegais",
+            subtitle: "Menos de 3 itens.",
             selected: false,
             pena: 5,
             multa: 10000,
@@ -1133,10 +1165,10 @@
         let multa = this.crimes.reduce((a, b) => a + b.multa, 0);
         multa = multa * this.multiplicadorMulta;
 
-        if(multa > 700000) {
+        if (multa > 700000) {
           multa = 700000;
         }
-        
+
         if (this.form.dinheiroSujo) {
           let dinheiroSujo = parseFloat(
             this.form.dinheiroSujo.replaceAll(".", "").replaceAll(",", ".")
@@ -1172,7 +1204,7 @@
 
         fianca = fianca * this.multiplicadorFianca;
 
-        if(fianca > 600000) {
+        if (fianca > 600000) {
           fianca = 600000;
         }
 
@@ -1219,6 +1251,15 @@
       },
       toggleSelectedCrime(crime) {
         crime.selected = !crime.selected;
+
+        console.log('aaaa', crime.label == 'Art. 40 - Réu Reincidente' && crime.selected)
+        if (crime.label == 'Art. 40 - Réu Reincidente' && crime.selected) {
+          this.form.reuPrimario = false
+          this.atenuantes[4].selected = false
+        } else {
+          this.form.reuPrimario = true
+          this.atenuantes[4].selected = true
+        }
       },
       parseToBrl(value) {
         if (!value) return "R$ 0,00";
@@ -1322,9 +1363,15 @@
           text += `\n${crime.label}`;
         });
 
-        if (this.form.itensApreendidos) {
+        if (this.form.itensApreendidos || this.form.dinheiroSujo) {
           text += `\n\n# ITENS APREENDIDOS: `;
-          text += `\n${this.form.itensApreendidos}`;
+
+          if (this.form.dinheiroSujo) {
+            text += `\nR$ ${this.form.dinheiroSujo} dinheiro sujo`;
+          }
+
+          if (this.form.itensApreendidos)
+            text += `\n${this.form.itensApreendidos}`;
         }
 
         let atenuantes = this.atenuantes
@@ -1424,7 +1471,7 @@
         }
       },
       toogleFianca() {
-        if(this.crimes.filter(el => el.fianca === null && el.selected).length > 0) return false;
+        if (this.crimes.filter(el => el.fianca === null && el.selected).length > 0) return false;
 
         this.fiancaPaga = !this.fiancaPaga
       },
